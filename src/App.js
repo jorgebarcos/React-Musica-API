@@ -17,9 +17,28 @@ function App() {
 		// Consultar la api
 		const resultado = await axios(url);
 
+		// almacenar el artista que se buscó
+		agregarArtista(artista);
+
 		// almacenar la letra en el state
 		agregarLetra(resultado.data.lyrics);
 	};
+
+	// Método para consultar la API de Información
+	const consultarAPIInfo = async () => {
+		const url = `https://theaudiodb.com/api/v1/json/1/search.php?s=coldplay`;
+
+		const resultado = await axios(url);
+
+		agregarInfo(resultado.data.artists[0]);
+	};
+
+	useEffect(
+		() => {
+			consultarAPIInfo();
+		},
+		[ artista ]
+	);
 
 	return (
 		<Fragment>
