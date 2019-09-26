@@ -1,5 +1,6 @@
 import React, { useState, useEffect, Fragment } from 'react';
 import Formulario from './components/Formulario';
+import axios from 'axios';
 
 function App() {
 	// Utilizar useState con 3 States diferentes
@@ -8,8 +9,15 @@ function App() {
 	const [ info, agregarInfo ] = useState({});
 
 	// Método para consultar la API de letras de canciones
-	const consultarAPILetra = (busqueda) => {
-		console.log(busqueda);
+	const consultarAPILetra = async (busqueda) => {
+		const { artista, cancion } = busqueda;
+		const url = `https://api.lyrics.ovh/v1/${artista}/${cancion}`;
+
+		// Consultar la api
+		const resultado = await axios(url);
+
+		// almacenar la letra en el state
+		agregarLetra(resultado.data.lyrics);
 	};
 
 	return (
