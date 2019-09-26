@@ -1,7 +1,8 @@
 import React, { useState, useEffect, Fragment } from 'react';
 import Formulario from './components/Formulario';
-import axios from 'axios';
 import Cancion from './components/Cancion';
+import Informacion from './components/Informacion';
+import axios from 'axios';
 
 function App() {
 	// Utilizar useState con 3 States diferentes
@@ -26,11 +27,13 @@ function App() {
 
 	// Método para consultar la API de Información
 	const consultarAPIInfo = async () => {
-		const url = `https://theaudiodb.com/api/v1/json/1/search.php?s=coldplay`;
+		if (artista) {
+			const url = `https://theaudiodb.com/api/v1/json/1/search.php?s=${artista}`;
 
-		const resultado = await axios(url);
+			const resultado = await axios(url);
 
-		agregarInfo(resultado.data.artists[0]);
+			agregarInfo(resultado.data.artists[0]);
+		}
 	};
 
 	useEffect(
@@ -46,7 +49,9 @@ function App() {
 
 			<div className="container mt-5">
 				<div className="row">
-					<div className="col-md-6" />
+					<div className="col-md-6">
+						<Informacion info={info} />
+					</div>
 					<div className="col-md-6">
 						<Cancion letra={letra} />
 					</div>
